@@ -9,6 +9,7 @@ import {login} from '../actions/user_actions';
 import FontAwesome from 'react-fontawesome';
 import { bindActionCreators } from 'redux';
 
+
 class NavBar extends Component {
     state = {
         showModal: false,
@@ -19,8 +20,7 @@ class NavBar extends Component {
     };
 
     componentDidMount() {
-        // console.log(this.props);
-        // console.log(this.context.location.pathname)
+        console.log(this.props);
     }
 
     componentWillReceiveProps(prop) {
@@ -53,7 +53,7 @@ class NavBar extends Component {
                 </Modal.Header>
                 <Modal.Body>
                     <FormGroup>
-                        <ControlLabel>Username or e-mail</ControlLabel>
+                        <ControlLabel>Username</ControlLabel>
                         <FormControl
                             type="text"
                             value={this.state.username}
@@ -87,7 +87,7 @@ class NavBar extends Component {
         const {username, password} = this.state;
         this.setState({loading: true});
         this.props.login(username, password, "N")
-            .then((response) => {this
+            .then((response) => {
                 this.setState({loading: false});
                 console.log("response:", response);
                 if(!response.payload.data.login_id) {
@@ -95,12 +95,36 @@ class NavBar extends Component {
                 } else {
                     this.setState({errorMessage: '', showModal: false});
                 }
+            })
+            .catch((e) => {
+                this.setState({
+                    loading: false,
+                    errorMessage: 'An Internal Server Error Occurred.'
+                });
             });
+
     }
 
     render() {
 
         const {user} = this.props;
+
+        // return (
+        //     <nav className="navbar navbar-toggleable-md navbar-light bg-faded">
+        //         <button className="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+        //             <span className="navbar-toggler-icon"></span>
+        //         </button>
+        //         <a className="navbar-brand" href="#">Navbar</a>
+        //         <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+        //             <div className="navbar-nav">
+        //                 <a className="nav-item nav-link active" href="#">Home <span className="sr-only">(current)</span></a>
+        //                 <a className="nav-item nav-link" href="#">Features</a>
+        //                 <a className="nav-item nav-link" href="#">Pricing</a>
+        //                 <a className="nav-item nav-link disabled" href="#">Disabled</a>
+        //             </div>
+        //         </div>
+        //     </nav>
+        // )
 
         return (
             <div>
@@ -128,7 +152,7 @@ class NavBar extends Component {
                                     {
                                         user.info.login_id
                                             ?
-                                            <Link to={`profile`} className="pull-right">{user.info.login_id}</Link>
+                                            <Link to={`profile`} params={{user_id: user.info.user_id}} className="pull-right">Profile</Link>
                                             :
                                             <a href="#" onClick={this.open.bind(this)} className="page-scroll">Login</a>
                                     }

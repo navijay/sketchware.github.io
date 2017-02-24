@@ -3,8 +3,8 @@
  */
 export const LOGIN = "LOGIN";
 export const LOAD_PROJECTS = "LOAD_PROJECTS";
-// const SERVER = "http://www.sketchware.io";
-const SERVER = "http://175.117.39.158:8080";
+// export const SERVER = "http://www.sketchware.io";
+export const SERVER = "http://175.117.39.158:8080";
 import axios from 'axios';
 import SHA256 from 'crypto-js/sha256';
 
